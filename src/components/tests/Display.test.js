@@ -157,11 +157,22 @@ test("Test that when the fetch button is pressed, the amount of select options r
   expect(container).toBeInTheDocument();
   const options = await screen.findAllByTestId("season-option");
 
-  expect(options.length === 5);
+  expect(options).toHaveLength(4);
   console.log(
     "🚀 ~ file: Display.test.js ~ line 161 ~ test ~ options.length",
     options.length
   );
+});
+
+test("Test that when the fetch button is pressed, this function is called.", async () => {
+  const fakeHDisplayFunc = jest.fn();
+
+  render(<Display displayFunc={fakeHDisplayFunc} />);
+  const button = screen.getByRole("button");
+  userEvent.click(button);
+  const container = await screen.findByTestId("show-container");
+  expect(container).toBeInTheDocument();
+  expect(fakeHDisplayFunc).toBeCalledTimes(1);
 });
 
 ///Tasks:
